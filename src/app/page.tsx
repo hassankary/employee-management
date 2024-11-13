@@ -1,101 +1,137 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+
+interface EmployeeData {
+  name: string;
+  role: string;
+  email: string;
+  address: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [employeeData, setEmployeeData] = useState<EmployeeData>({
+    name: "",
+    role: "",
+    email: "",
+    address: "",
+  });
+  const [employeeList, setEmployeeList] = useState<EmployeeData[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const tabelMenu = ["name", "role", "email", "address", "actions"];
+
+  const handelSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (employeeData.name.trim() === "") {
+      console.log("form cannot be empty");
+      return;
+    }
+
+    setEmployeeList([...employeeList, employeeData]);
+
+    setEmployeeData({
+      name: "",
+      role: "",
+      email: "",
+      address: "",
+    });
+  };
+
+  useEffect(() => {
+    console.log("employeeList =>", employeeList);
+  }, [employeeList]);
+
+  return (
+    <div className=" min-h-screen mx-auto container px-4 bg-white">
+      <div className=" h-full w-full flex flex-col py-8 justify-center items-center">
+        <div className="mb-8 py-4 font-bold text-black text-3xl">
+          Employee Management
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+        <form onSubmit={handelSubmit} className="flex gap-x-2">
+          <input
+            type="text"
+            placeholder="Name"
+            value={employeeData.name}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, name: e.target.value })
+            }
+            className="input input-bordered input-sm input-info w-full max-w-xs"
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <input
+            type="text"
+            placeholder="Role"
+            value={employeeData.role}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, role: e.target.value })
+            }
+            className="input input-bordered input-sm input-info w-full max-w-xs"
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <input
+            type="text"
+            placeholder="Email"
+            value={employeeData.email}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, email: e.target.value })
+            }
+            className="input input-bordered input-sm input-info w-full max-w-xs"
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <input
+            type="text"
+            placeholder="Address"
+            value={employeeData.address}
+            onChange={(e) =>
+              setEmployeeData({ ...employeeData, address: e.target.value })
+            }
+            className="input input-bordered input-sm input-info w-full max-w-xs"
+          />
+          <button type="submit" className="btn btn-sm btn-primary">
+            Add
+          </button>
+        </form>
+      </div>
+      <div className="flex flex-col overflow-x-auto bg-slate-700">
+        <table className="table table-zebra">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>No.</th>
+              {tabelMenu.map((d) => (
+                <th key={d}>{d}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {employeeList?.map((d, i) => (
+              <tr key={d.name + i}>
+                <th>{i + 1}</th>
+                <td>{d.name}</td>
+                <td>{d.role}</td>
+                <td>{d.email}</td>
+                <td>{d.address}</td>
+                <td className="flex flex-col sm:flex-row justify-center items-center gap-2">
+                  <button
+                    onClick={() => console.log("edit data tabel =>", i + 1)}
+                    className="w-full sm:w-fit btn btn-sm btn-outline btn-primary"
+                  >
+                    edit
+                  </button>
+                  <button
+                    onClick={() => console.log("delete data =>", i + 1)}
+                    className="w-full sm:w-fit btn btn-sm btn-outline btn-error"
+                  >
+                    delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {employeeList.length === 0 ? (
+          <div className=" flex py-36 justify-center items-center bg-red-500">
+            Data not found.
+          </div>
+        ) : null}
+      </div>
     </div>
   );
 }
