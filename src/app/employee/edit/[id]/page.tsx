@@ -25,7 +25,6 @@ export default function EditEmployee() {
   const [state, formAction] = useFormState(updateEmployeeWithId, null);
 
   useEffect(() => {
-    console.log("id edit =>", id);
     const fetchEmployee = async () => {
       if (id && typeof id === "string") {
         try {
@@ -48,8 +47,8 @@ export default function EditEmployee() {
   }, [id]);
 
   return (
-    <div className=" h-screen w-full flex justify-center items-center bg-white">
-      <div className=" px-10 py-8 space-y-6 bg-slate-900 rounded-lg">
+    <div className="h-screen w-full flex justify-center items-center bg-white text-white">
+      <div className="px-10 py-8 space-y-6 bg-slate-900 rounded-lg">
         <h1 className="mx-auto font-bold text-center ">New Employee</h1>
         <form action={formAction} className="flex flex-col gap-1 sm:w-[250px]">
           <div>
